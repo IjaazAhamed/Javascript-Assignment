@@ -1,62 +1,56 @@
-let getList = document.getElementById('Main')
-getList.addEventListener('click',addCompleteList)
+async function details(){
+    let promise= await fetch('https://jsonplaceholder.typicode.com/todos')
+    let user=await promise.json()
+    console.log(user)
+    return user
 
-
-let parent1 = document.getElementById('completed')
-let parent2 = document.getElementById('pending')
-
-let btnComplete = document.getElementById('btn1')
-let btnPending = document.getElementById('btn2')
-
-btnComplete.addEventListener('click',ShowTrue)
-btnPending.addEventListener('click',ShowFalse)
-getList.addEventListener('click',showAll)
-
-function addCompleteList()
-{
-    let getInfo = new XMLHttpRequest();
-
-    getInfo.open("GET", "https://jsonplaceholder.typicode.com/todos", true);
-    getInfo.send();
-
-    getInfo.onload = function() { 
-        let list = this.responseText
-        list = JSON.parse(list)
-        for(ele of list){
-            let divElem = document.createElement('div')
-            divElem.innerHTML = `<p><b>${ele.title}</b><p><p>userId:${ele.userId}</p><p>id:${ele.id}</p>
-            `
-            divElem.setAttribute('style',"width: 45%; margin:5px;border: 1px solid white; padding:5px; display:inline-block;")
-
-            if (ele.completed===true){
-                divElem.setAttribute('class','complete')
-                
-                divElem.innerHTML += `<p>status:${ele.completed}`
-                parent1.appendChild(divElem)
-            }
-            else if (ele.completed===false){
-                divElem.setAttribute('class','pend')
-                
-                divElem.innerHTML += `<p>status:${ele.completed}`
-                parent2.appendChild(divElem)
-            }
-        }
+}
+let data=details()
+output=''
+data.then(function(items){
+    for (let i=0;i<items.length;i++){
+        output+=`<p> <span key=${items[i].id}>${items[i].title} 
+        , id=${items[i].id}
+        ,completed=${items[i].completed}</span></p>`
 
     }
+    console.log(output)
+    let body=document.querySelector('#info')
+    body.innerHTML=output
+}
+)
+document.querySelector('#all').onclick=function(){ window.location.reload()}
+document.querySelector('#comp').onclick=function(){
+    output1=''
+    data.then(function(items){
+        for (let i=0;i<items.length;i++){
+            if (items[i].completed==true){
+            output1+=`<p> <span key=${items[i].id}>${items[i].title} 
+            , id=${items[i].id}
+            ,completed=${items[i].completed}</span></p>`}
 
+        }
+        let body=document.querySelector('#info')
+        console.log(output1)
+        body.innerHTML=output1
+    }
+    )
 }
 
-function ShowTrue(){
-parent2.setAttribute('style','display:None')
-parent1.setAttribute('style','display:inline-block')
-}
+document.querySelector('#pend').onclick=function(){
+    output1=''
+    data.then(function(items){
+        for (let i=0;i<items.length;i++){
+            if (items[i].completed==false){
+            output1+=`<p> <span key=${items[i].id}>${items[i].title} 
+            , id=${items[i].id}
+            ,completed=${items[i].completed}</span></p>`}
 
-function ShowFalse(){
-parent1.setAttribute('style','display:None')
-parent2.setAttribute('style','display:inline-block')
-}
+        }
+        let body=document.querySelector('#info')
+        console.log(output1)
+        body.innerHTML=output1
+    }
+    )
 
-function showAll(){
-parent1.setAttribute('style','display:inline-block')
-parent2.setAttribute('style','display:inline-block')
 }
