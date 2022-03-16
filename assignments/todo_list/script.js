@@ -1,18 +1,56 @@
-let addBtn = document.querySelector('button')
-addBtn.addEventListener('click',add)
-let parent1 = document.querySelector('div.todos')
-let idx = 0
-let content=''
-function add(e){
-    content = document.querySelector('input').value
-    let paragraph = document.createElement('p')
-    paragraph.setAttribute('key',String(idx))
-    paragraph.innerHTML=content
-    parent1.appendChild(paragraph)
-    idx+=1
+async function details(){
+    let promise= await fetch('https://jsonplaceholder.typicode.com/todos')
+    let user=await promise.json()
+    console.log(user)
+    return user
 
-    document.querySelector((`p[key="${idx-1}"]`)).addEventListener('click',function(e){
-        parent1.removeChild(this)
-    })
+}
+let data=details()
+output=''
+data.then(function(items){
+    for (let i=0;i<items.length;i++){
+        output+=`<p> <span key=${items[i].id}>${items[i].title} 
+        , id=${items[i].id}
+        ,completed=${items[i].completed}</span></p>`
+
+    }
+    console.log(output)
+    let body=document.querySelector('#info')
+    body.innerHTML=output
+}
+)
+document.querySelector('#all').onclick=function(){ window.location.reload()}
+document.querySelector('#comp').onclick=function(){
+    output1=''
+    data.then(function(items){
+        for (let i=0;i<items.length;i++){
+            if (items[i].completed==true){
+            output1+=`<p> <span key=${items[i].id}>${items[i].title} 
+            , id=${items[i].id}
+            ,completed=${items[i].completed}</span></p>`}
+
+        }
+        let body=document.querySelector('#info')
+        console.log(output1)
+        body.innerHTML=output1
+    }
+    )
+}
+
+document.querySelector('#pend').onclick=function(){
+    output1=''
+    data.then(function(items){
+        for (let i=0;i<items.length;i++){
+            if (items[i].completed==false){
+            output1+=`<p> <span key=${items[i].id}>${items[i].title} 
+            , id=${items[i].id}
+            ,completed=${items[i].completed}</span></p>`}
+
+        }
+        let body=document.querySelector('#info')
+        console.log(output1)
+        body.innerHTML=output1
+    }
+    )
 
 }
