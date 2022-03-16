@@ -1,12 +1,42 @@
-</head>
-<body>
-    <div>
-        
-        <button id="all">All items</button>
-        <button id="comp">completed items</button>
-        <button id="pend">pending items</button>
-    </div>
-    <div id="info"></div>
-</body>
-<script src='./script.js'></script>
-</html>
+<html>
+    <head>
+        <title>Todo List</title>
+        <style>
+            button{
+                margin-top: 30px;
+                width: 300px;
+                margin-left: 70px;
+                margin-right: 70px;
+                height: 30px;
+                position: relative;
+                justify-content: space-around;
+                display: flex;
+                border-radius: 20px;
+                padding: 5px;
+            }
+            button:hover{
+                background-color: blue;
+            }
+            body{
+                background-color: aliceblue;
+            }
+        </style>
+    </head>
+    <body>
+        <div>
+            <input type='text' name='todo_input'>
+            <!-- <input type='text' name='todo_input'>
+            <button type='submit'>Add Todo</button>
+            <div class='todos'></div>
+            <br> -->
+            <table>
+                <tr>
+                    <th><button id="all"  type='submit'>ALL</button></th>
+                    <th> <button id="comp"  type='submit'>COMPLETED</button></th>
+                    <th><button id="pend"  type='submit'>PENDING</button></th>
+                </tr>
+        </table>
+            <div class='todos' ></div>
+        </div>
+    </body>
+    <script src='./script.js'></script>
